@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}<title>Add Server Group</title>{% endblock %}
+{% block content %}
+<h3>Add Server Group</h3>
+	<hr>
+	<form method="POST" class="form-horizontal">
+  <div class="control-group">
+    <label class="control-label" for="host_name">Group Name:</label>
+    <div class="controls">
+      {{ form.host_groupname }}{{form.host_groupname.errors}}
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="host_w_ip">Host List:</label>
+    <div class="controls">
+      {{ form.host }}{{form.host.errors}}
+    </div>
+  </div>
+  <div class="control-group">
+    <div class="controls">
+      <button type="submit" class="btn" id="send" >Save Server Group</button>
+    </div>
+  </div>
+</form>
+{% endblock %}

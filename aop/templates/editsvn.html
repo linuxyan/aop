@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}<title>Edit Svn</title>{% endblock %}
+{% block content %}
+<h3>Edit Svn</h3>
+	<hr>
+	<form method="POST" class="form-horizontal">
+  <div class="control-group">
+    <label class="control-label" for="svn_name">Svn Name:</label>
+    <div class="controls">
+      {{ form.svn_name }}{{form.svn_name.errors}}
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="svn_user">Svn User:</label>
+    <div class="controls">
+      {{ form.svn_user }}{{form.svn_user.errors}}
+    </div>
+  </div>
+    <div class="control-group">
+    <label class="control-label" for="svn_pass">Svn Pass:</label>
+    <div class="controls">
+      {{ form.svn_pass }}{{form.svn_pass.errors}}
+    </div>
+  </div>
+    <div class="control-group">
+    <label class="control-label" for="host_user">local path:</label>
+    <div class="controls">
+       {{ form.svn_local }}{{form.svn_local.errors}}
+    </div>
+  </div>
+    <div class="control-group">
+    <label class="control-label" for="host_user">Svn path:</label>
+    <div class="controls">
+	  {{ form.svn_path }}{{form.svn_path.errors}}
+    </div>
+  </div>
+    <div class="control-group">
+    <label class="control-label" for="bash_dir">Svn by Host:</label>
+    <div class="controls">
+	{{ form.host }}{{form.host.errors}}
+    </div>
+  </div>
+  <div class="control-group">
+    <div class="controls">
+      <button type="submit" class="btn" >Update Svn</button>
+    </div>
+  </div>
+</form>
+<span class="label label-success">{{result}}</span>
+{% endblock %}

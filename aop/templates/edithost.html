@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}<title>Edit Server</title>{% endblock %}
+{% block content %}
+<h3>Edit Server</h3>
+	<hr>
+	<form method="POST" class="form-horizontal">
+  <div class="control-group">
+    <label class="control-label" for="host_name">Host Name:</label>
+    <div class="controls">
+      {{ form.host_name }}{{form.host_name.errors}}
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="host_w_ip">Host Inter IP:</label>
+    <div class="controls">
+      {{ form.host_w_ip }}{{form.host_w_ip.errors}}
+	  <span class="add-on">&nbsp;&nbsp;ssh port:</span>
+	  {{ form.host_w_port }}{{form.host_w_port.errors}}
+    </div>
+  </div>
+    <div class="control-group">
+    <label class="control-label" for="host_n_ip">Host local IP:</label>
+    <div class="controls">
+      {{ form.host_n_ip }}{{form.host_n_ip.errors}}
+	  <span class="add-on">&nbsp;&nbsp;ssh port:</span>
+	  {{ form.host_n_port }}{{form.host_n_port.errors}}
+    </div>
+  </div>
+    <div class="control-group">
+    <label class="control-label" for="host_user">login user:</label>
+    <div class="controls">
+       {{ form.host_user }}{{form.host_user.errors}}
+	  <span class="add-on">&nbsp;&nbsp;passwd:</span>
+	  {{ form.host_pass }}{{form.host_pass.errors}}
+    </div>
+  </div>
+    <div class="control-group">
+    <label class="control-label" for="host_user">root user:</label>
+    <div class="controls">
+      <input type="text"  class="input-medium disabled" id="host_user" name="host_user_root" placeholder="root" disabled>
+	  <span class="add-on">&nbsp;&nbsp;passwd:</span>
+	  {{ form.host_root_pwd }}{{form.host_root_pwd.errors}}
+    </div>
+  </div>
+    <div class="control-group">
+    <label class="control-label" for="bash_dir">Bash Directory:</label>
+    <div class="controls">
+	{{ form.script_dir }}{{form.script_dir.errors}}
+    </div>
+  </div>
+    <div class="control-group">
+    <label class="control-label" for="host_des">Server Description:</label>
+    <div class="controls">
+	  {{ form.host_description }}{{form.host_description.errors}}
+    </div>
+  </div>
+  <div class="control-group">
+    <div class="controls">
+      <button type="submit" class="btn" id="send" >Add Server</button>
+    </div>
+  </div>
+</form>
+<span class="label label-success">{{result}}</span>
+{% endblock %}

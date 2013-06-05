@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}<title>Add Server Group</title>{% endblock %}
+{% block content %}
+<h3>Add Server Group</h3>
+	<hr>
+	<form class="well form-inline" method="POST" >
+	  <div class="input-prepend">
+	   <span class="add-on">Server Group Name</span>{{ host_group_form.host_groupname }}
+	   </div>
+	   <input type="hidden" name="grouptype" value="servergroup">
+	  <button type="submit" class="btn btn-small btn-primary">Create New Server Group</button>
+	</form>
+      <table class="table table-bordered table-striped table-condensed">
+		<thead>
+			<tr>
+			<th>Server Group Name</th>
+			<th>Create Date</th>
+			<th>Create User</th>
+			<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for hostgroup in hostgroups %}
+			<tr>
+			  <td><a href="{% url aop.views.hostgroup_detail hostgroup.id %}">{{hostgroup.host_groupname}}</a></td>
+			  <td>{{hostgroup.create_date}}</td>
+			  <td>{{hostgroup.create_user}}</td>
+			  <td><a href="{% url aop.views.hostgroup_del hostgroup.id %}" title="Delete Server Group"><i class="icon-remove"></i></a></td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	  </table>  	
+	
+	
+  <h3>Add Script Group</h3>
+  <hr>
+	<form class="well form-inline" method="POST" >
+	  <div class="input-prepend">
+	   <span class="add-on">Script Group Name</span>{{ script_group_form.script_groupname }}
+	   </div>
+	   <input type="hidden" name="grouptype" value="scriptgroup">
+	  <button type="submit" class="btn btn-small btn-primary">Create New Script Group</button>
+	</form>
+	      <table class="table table-bordered table-striped table-condensed">
+		<thead>
+			<tr>
+			<th>Script Group Name</th>
+			<th>Create Date</th>
+			<th>Create User</th>
+			<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for scriptgroup in scriptgroups %}
+			<tr>
+			  <td><a href="{% url aop.views.scriptgroup_detail scriptgroup.id %}">{{scriptgroup.script_groupname}}</a></td>
+			  <td>{{scriptgroup.create_date}}</td>
+			  <td>{{scriptgroup.create_user}}</td>
+			  <td><a href="{% url aop.views.scriptgroup_del scriptgroup.id %}" title="Delete Script Group"><i class="icon-remove"></i></a></td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	  </table>  
+{% endblock %}

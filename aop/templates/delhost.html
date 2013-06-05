@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}<title>del Server</title>{% endblock %}
+{% block content %}
+			<div class="row-fluid sortable">	
+				<div class="box span12">
+					<div class="box-header well" data-original-title>
+						<h5>确认删除服务器信息</h5>
+						<p class="text-warning">删除服务器信息时，服务器上的svn信息也一并会删除！以下svn信息将被删除：</p>
+					</div>
+					<div class="box-content">
+						<table class="table table-bordered table-striped table-condensed">
+							  <thead>
+								  <tr>
+									  <th>所属服务器</th>
+									  <th>本地路径</th>
+									  <th>svn库路径</th>
+									  <th>svn名称</th>  
+								  </tr>
+							  </thead>   
+							  <tbody>
+									{% for svn in svns %}
+								<tr>
+									<td>{{svn.host}}</td>
+									<td>{{svn.svn_local}}</td>
+									<td>{{svn.svn_path}}</td>
+									<td class="center">{{svn.svn_name}}</td>    									
+								</tr>   
+									{% endfor %}
+							  </tbody>
+						 </table>  
+					<a class="btn btn-primary" href="{% url aop.views.confirm_del host_id %}"><i class="icon-trash"></i>点击确认删除服务器信息以及svn信息</a>
+					</div>
+				</div><!--/span-->
+			</div><!--/row-->
+{% endblock %}

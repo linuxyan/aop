@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}<title>Task Management</title>{% endblock %}
+{% block content %}
+<h4>Task Management</h4>
+	<hr>
+<form class="well form-inline" method="POST">
+  <div class="input-prepend">
+   <span class="add-on">Task Name</span>{{form.task_name}}
+   </div>
+  <div class="input-prepend">
+   <span class="add-on">Server Group</span>{{form.script_group}}
+   </div>
+  <div class="input-prepend">
+   <span class="add-on">Script Group</span>{{form.host_group}}
+   </div>
+  <button type="submit" class="btn btn-small btn-primary">Create New Task </button>
+</form>
+<table class="table table-striped">
+<thead>
+    <tr>
+	  <th>#</th>
+      <th>Task Name</th>
+      <th>Server Group</th>
+	  <th>Script Group</th>
+	  <th>Create Date</th>
+	  <th>Create User</th>
+    </tr>
+  </thead>
+  <tbody>
+	  {% for task in task_list  %}
+    <tr>
+      <td>{{task.id}}</td>
+      <td>{{task.task_name}}</td>
+	  <td>{{task.host_group}}</td>
+	  <td>{{task.script_group}}</td>
+	  <td>{{task.task_date}}</td>
+	  <td>{{task.task_create_user}}</td>
+	  {% if task.task_status == "0" %}
+	  <td width="50"><a class="btn btn-small btn-primary" name="runtask" id="{{task.id}}">run</a></td>
+	  {% elif task.task_status == "1" %}
+	  <td width="50"><a class="btn btn-small btn-primary disabled "  name="runtask" id="{{task.id}}">run</a></td>
+	  {% endif %}
+	  <td width="100"><a class="btn btn-small btn-primary" href="{% url aop.views.task_status  task.id%}">view status</a></td>
+	  <td width="80"><a  class="btn btn-small btn-primary" href="{% url aop.views.task_del  task.id%}">del task</a></td>
+    </tr>
+	  {% endfor %}
+
+  </tbody>
+</table>
+<h4>Running Status View</h4>
+<hr>
+<div class="well">
+{% autoescape off %}{{result}} {% endautoescape %}
+</div>
+{% endblock %}

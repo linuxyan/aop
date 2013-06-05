@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}<title>Show Svn</title>{% endblock %}
+{% block content %}
+<div>
+	<a href="/svnadd"><span class="label label-warning">Add Svn</span></a>&nbsp;&nbsp;
+	<a href="/showsvnlog"><span class="label label-warning">show svn log</span></a>&nbsp;&nbsp;
+	<a href="#"><span class="label label-inverse">Del Svn</span></a>
+<div class="pull-right">
+	<form class="form-search" method="POST">
+	<input type="text" name ="search" class="input-medium search-query" placeholder="Search">
+	<button type="submit" class="btn">Search</button>&nbsp;&nbsp;
+	</form>
+</div>
+</div>
+	<hr>
+      <table class="table table-bordered table-striped">
+		<thead>
+			<tr>
+			<th>Svn Name</th>
+			<th>local path</th>
+			<th>Svn path</th>
+			<th>By Host</th>
+			<th width="150">操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for svn in svns %}
+			<tr>
+			<td><a href="{% url aop.views.svnedit svn.id %}" title="Edit Svn">{{svn.svn_name}}</a></td>
+			<td>{{svn.svn_local}}</td>
+			<td>{{svn.svn_path}}</td>
+			<td>{{svn.host}}</td>			
+			<td>
+				<div class="btn-group">
+				<a class="btn" href="{% url aop.views.svnupdate svn.id "1"%}" title="Update svn"><i class="icon-refresh"></i>更新</a>
+				<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">更新到<span class="caret"></span></a>
+				<ul class="dropdown-menu">
+				<li><a href="{% url aop.views.svnupdate svn.id "2"%}">上一版本</a></li>
+				<li><a href="#">指定版本</a></li>
+				</ul>
+				</div>
+			</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	  </table>
+	  
+	  <div class="pagination pagination-centered">
+	  <div class="pull-right"><span class="label">{{svns}}</span></div>
+		<ul>{% if not svns.has_previous %}
+			<li class="active"><a>前一页</a></li>
+			{% endif %}
+			{% if svns.has_previous %}
+			<li><a href="?page={{ svns.previous_page_number }}">前一页</a></li>
+			{% endif %}
+			{% if not svns.has_next %}
+			<li class="active"><a>后一页</a></li>
+			{% endif %}
+			{% if svns.has_next %}
+			<li><a href="?page={{ svns.next_page_number }}">后一页</a></li>
+			{% endif %}
+		</ul>
+	  </div>
+
+{% endblock %}

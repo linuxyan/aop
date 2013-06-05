@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% block title %}<title>测试标题</title>{% endblock %}
+{% block content %}
+<div>
+	<form class="form-search" method="POST">
+	<input type="text" name ="search" class="input-medium search-query" placeholder="Search">
+	<button type="submit" class="btn">Search</button>&nbsp;&nbsp;
+	<a href="/hostadd"><span class="label label-warning">Add Server</span></a>&nbsp;&nbsp;
+	<a href="#"><span class="label label-inverse">Del Server</span></a>
+	</form>
+</div>
+	<hr>
+      <table class="table table-bordered table-striped">
+		<thead>
+			<tr>
+			<th>test</th>
+			<th>test</th>
+			<th>test</th>
+			<th>test</th>
+			<th>test</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+			<td><a href="#">asxsxsa</a></td>
+			<td>sasasas</td>
+			<td>sasasas</td>
+			<td>sasasas</td>
+			<td>sasasas</td>
+			</tr>
+			<tr>
+			<td>assa</td>
+			<td>sasasas</td>
+			<td>sasasas</td>
+			<td>sasasas</td>
+			<td>sasasas</td>
+			</tr>
+			<tr>
+			<td>assa</td>
+			<td>sasasas</td>
+			<td>sasasas</td>
+			<td>sasasas</td>
+			<td>sasasas</td>
+			</tr>
+			<tr>
+			<td>assa</td>
+			<td>sasasas</td>
+			<td>sasasas</td>
+			<td>sasasas</td>
+			<td>sasasas</td>
+			</tr>
+			<tr>
+			<td>assa</td>
+			<td>sasasas</td>
+			<td>sasasas</td>
+			<td>sasasas</td>
+			<td>sasasas</td>
+			</tr>
+			<tr>
+			<td>assa</td>
+			<td>sasasas</td>
+			<td>sasasas</td>
+			<td>sasasas</td>
+			<td>sasasas</td>
+			</tr>
+			<tr>
+			<td>assa</td>
+			<td>sasasas</td>
+			<td>sasasas</td>
+			<td>sasasas</td>
+			<td>sasasas</td>
+			</tr>
+			<tr>
+			<td>assa</td>
+			<td>sasasas</td>
+			<td>sasasas</td>
+			<td>sasasas</td>
+			<td>sasasas</td>
+			</tr>
+			<tr>
+			<td>assa</td>
+			<td>sasasas</td>
+			<td>sasasas</td>
+			<td>sasasas</td>
+			<td>sasasas</td>
+			</tr>
+			<tr>
+			<td>assa</td>
+			<td>sasasas</td>
+			<td>sasasas</td>
+			<td>sasasas</td>
+			<td>sasasas</td>
+			</tr>
+			<tr>
+			<td>assa</td>
+			<td>sasasas</td>
+			<td>sasasas</td>
+			<td>sasasas</td>
+			<td>
+			<div class="btn-group">
+			  <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+			  Action
+			<span class="caret"></span>
+		   </a>
+			<ul class="dropdown-menu">
+			<li><a href="#" id="12" name="Edit" >Action</a></li>
+			</ul>
+		  </div>
+			
+			
+			
+			</td>
+			</tr>
+		</tbody>
+	  </table>
+	  <div class="pagination pagination-centered">
+		<ul>
+			<li><a href="#">前一页</a></li>
+			<li class="active"><a href="#">1</a></li>
+			<li><a href="#">2</a></li>
+			<li><a href="#">3</a></li>
+			<li><a href="#">4</a></li>
+			<li><a href="#">后一页</a></li>
+		</ul>
+	  </div>
+	  
+	  <a class="btn" data-toggle="modal" href="#myModal"  data-keyboard="true" data-backdrop="static" >点击"无ESC关闭，无遮蔽背景"演示</a>
+	  <div class="modal hide fade" id="myModal">
+		<div class="modal-header">
+			<a class="close" data-dismiss="modal">×</a>
+		<h3>对话框标题</h3>
+	  </div>
+	  <div class="modal-body">
+		<p>对话框内容</p>
+	  </div>
+	  <div class="modal-footer">
+		<a href="#" class="btn" data-dismiss="modal">关闭</a>
+		<a href="#" class="btn btn-primary">保存更新</a>
+	  </div>
+	  </div>	
+	  <br>
+	 <button type="button" id="fat-btn" class="btn btn-primary" data-loading-text="Loading..." onclick="test()" >Loading state</button>
+{% endblock %}

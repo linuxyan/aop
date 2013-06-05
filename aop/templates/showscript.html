@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block title %}<title>Show Script</title>{% endblock %}
+{% block content %}
+<div>
+	<a href="/addscript"><span class="label label-warning">Add Script</span></a>&nbsp;&nbsp;
+	<a href="#"><span class="label label-inverse">Del Server</span></a>
+<div class="pull-right">
+	<form class="form-search" method="POST">
+	<input type="text" name ="search" class="input-medium search-query" placeholder="Search">
+	<button type="submit" class="btn">Search</button>&nbsp;&nbsp;
+	</form>
+</div>
+</div>
+	<hr>
+      <table class="table table-bordered table-striped table-condensed">
+		<thead>
+			<tr>
+			<th>Script Name</th>
+			<th>Script Path</th>
+			<th>Create Date</th>
+			<th>Script description</th>
+			<th>Create User</th>
+			<th width="200">操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for script in scripts %}
+			<tr>
+			<td>{{script.script_name}}</td>
+			<td>{{script.script_file}}</td>
+			<td>{{script.script_date}}</td>
+			<td>{{script.script_description}}</td>
+			<td>{{script.create_user}}</td>
+			<td>
+				<div class="btn-group">
+					<a class="btn" data-toggle="modal" href="#{{script.id}}" data-keyboard="true" data-backdrop="static" title="Del Server">Del</a>
+					<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">Add Group<span class="caret"></span></a>
+					<ul class="dropdown-menu">
+					{% for scriptgroup in scriptgroups %}
+					<li><a href="#" name="addscriptgroup" id="{{scriptgroup.id}}" value="{{script.id}}">{{scriptgroup.script_groupname}}</a></li>
+					{% endfor %}
+					</ul>
+				</div>
+			</td>
+			</tr>
+				<div class="modal hide fade" id="{{script.id}}">
+				 <div class="modal-header">
+					<a class="close" data-dismiss="modal">×</a>
+					<h3>确认删除</h3>
+				 </div>
+				 <div class="modal-body">
+				 
+				    <span class="badge badge-error"></span><span class="badge badge-warning"></h6>Do you want to delete {{script.script_name}} script?</h6></span>
+				 </div>
+				 <div class="modal-footer">
+					<a href="{% url aop.views.delscript script.id %}" class="btn btn-primary">删除</a>
+					<a href="#" class="btn" data-dismiss="modal">取消</a>
+				 </div>
+				</div>
+			{% endfor %}
+		</tbody>
+	  </table>	
+	<div class="modal hide fade" id="myModal">
+		<div class="modal-header">
+			<a class="close" data-dismiss="modal">×</a>
+			<h3>Add Group Status</h3>
+		</div>
+	  <div class="modal-body">
+		<span class="label label-success" id="addgroupstatus"></span>
+	  </div>
+	  </div>
+  <div class="pagination pagination-centered">
+	  <div class="pull-right"><span class="label">{{hosts}}</span></div>
+		<ul>{% if not scripts.has_previous %}
+			<li class="active"><a>前一页</a></li>
+			{% endif %}
+			{% if scripts.has_previous %}
+			<li><a href="?page={{ scripts.previous_page_number }}">前一页</a></li>
+			{% endif %}
+			{% if not scripts.has_next %}
+			<li class="active"><a>后一页</a></li>
+			{% endif %}
+			{% if scripts.has_next %}
+			<li><a href="?page={{ scripts.next_page_number }}">后一页</a></li>
+			{% endif %}
+		</ul>
+	  </div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}<title>Create Script</title>{% endblock %}
+{% block content %}
+<h3>Create Script</h3>
+	<hr>
+	<form method="POST" class="form-horizontal" enctype="multipart/form-data">
+  <div class="control-group">
+    <label class="control-label" for="svn_name">Script Name:</label>
+    <div class="controls">
+      {{ form.script_name }}{{form.script_name.errors}}
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="svn_user">Script File:</label>
+    <div class="controls">
+      {{ form.script_file }}{{form.script_file.errors}}
+    </div>
+  </div>
+    <div class="control-group">
+    <label class="control-label" for="svn_pass">Script description:</label>
+    <div class="controls">
+      {{ form.script_description }}{{form.script_description.errors}}
+    </div>
+  </div>
+  <div class="control-group">
+    <div class="controls">
+      <button type="submit" class="btn" >Save Script</button>
+    </div>
+  </div>
+</form>
+<span class="label label-success">{{result}}</span>
+{% endblock %}

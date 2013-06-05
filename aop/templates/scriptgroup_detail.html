@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}<title>Script Group Detail</title>{% endblock %}
+{% block content %}
+<h3>{{script_group.script_groupname}}</h3>
+	<hr>
+      <table class="table table-bordered table-striped table-condensed">
+		<thead>
+			<tr>
+			<th>Script Name</th>
+			<th>Script Path</th>
+			<th>Create Date</th>
+			<th>Script description</th>
+			<th>Create User</th>
+			<th width="200">操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for script in script_list %}
+			<tr>
+			<td>{{script.script_name}}</td>
+			<td>{{script.script_file}}</td>
+			<td>{{script.script_date}}</td>
+			<td>{{script.script_description}}</td>
+			<td>{{script.create_user}}</td>
+			<td><a href="#"  name="scriptgroup_del_script" id="{{script.id}}" value="{{script_group.id}}" title="Delete Server By Group"><i class="icon-remove"></i></a></td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	  </table>  	
+{% endblock %}

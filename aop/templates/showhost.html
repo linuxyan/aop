@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}<title>index</title>{% endblock %}
+{% block content %}
+<div>
+	<a href="/hostadd"><span class="label label-warning">Add Server</span></a>&nbsp;&nbsp;
+	<a href="#"><span class="label label-inverse">Del Server</span></a>
+<div class="pull-right">
+	<form class="form-search" method="POST">
+	<input type="text" name ="search" class="input-medium search-query" placeholder="Search">
+	<button type="submit" class="btn">Search</button>&nbsp;&nbsp;
+	</form>
+</div>
+</div>
+	<hr>
+      <table class="table table-bordered table-striped table-condensed">
+		<thead>
+			<tr>
+			<th>Host Name</th>
+			<th>Inter IP:Port</th>
+			<th>local IP:Port</th>
+			<th>Host User</th>
+			<th>Script Dir</th>
+			<th width="200">操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for host in hosts %}
+			<tr>
+			<td><a href="{% url aop.views.hostedit host.id %}" title="Edit Server">{{host.host_name}}</a></td>
+			<td>{{host.host_w_ip}}:{{host.host_w_port}}</td>
+			<td>{{host.host_n_ip}}:{{host.host_n_port}}</td>
+			<td>{{host.host_user}}</td>
+			<td>{{host.script_dir}}</td>
+			<td>
+				<div class="btn-group">
+					<a class="btn" href="{% url aop.views.hostedit host.id %}" title="Edit Server">Edit</a>
+					<a class="btn" href="{% url aop.views.hostdel host.id %}" title="Del Server" >Del</a>
+					<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">Add Group<span class="caret"></span></a>
+					<ul class="dropdown-menu">
+					{% for hostgroup in hostgroups %}
+					<li><a href="#" name="addservergroup" id="{{hostgroup.id}}" value="{{host.id}}">{{hostgroup.host_groupname}}</a></li>
+					{% endfor %}
+					</ul>
+				</div>
+			</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	  </table>
+	  <div class="modal hide fade" id="myModal">
+		<div class="modal-header">
+			<a class="close" data-dismiss="modal">×</a>
+			<h3>Add Group Status</h3>
+		</div>
+	  <div class="modal-body">
+		<span class="label label-success" id="addgroupstatus"></span>
+	  </div>
+	  </div>	
+	  
+  <div class="pagination pagination-centered">
+	  <div class="pull-right"><span class="label">{{hosts}}</span></div>
+		<ul>{% if not hosts.has_previous %}
+			<li class="active"><a>前一页</a></li>
+			{% endif %}
+			{% if hosts.has_previous %}
+			<li><a href="?page={{ hosts.previous_page_number }}">前一页</a></li>
+			{% endif %}
+			{% if not hosts.has_next %}
+			<li class="active"><a>后一页</a></li>
+			{% endif %}
+			{% if hosts.has_next %}
+			<li><a href="?page={{ hosts.next_page_number }}">后一页</a></li>
+			{% endif %}
+		</ul>
+	  </div>
+{% endblock %}

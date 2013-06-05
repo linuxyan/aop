@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}<title>Server Group Detail</title>{% endblock %}
+{% block content %}
+<h3>{{host_group.host_groupname}} Group</h3>
+	<hr>
+      <table id="group_host_table" class="table table-bordered table-striped table-condensed">
+		<thead>
+			<tr>
+			<th>Host Name</th>
+			<th>Inter IP:Port</th>
+			<th>local IP:Port</th>
+			<th>Host User</th>
+			<th>Script Dir</th>
+			<th width="200">操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for host in host_list %}
+			<tr>
+			<td>{{host.host_name}}</td>
+			<td>{{host.host_w_ip}}:{{host.host_w_port}}</td>
+			<td>{{host.host_n_ip}}:{{host.host_n_port}}</td>
+			<td>{{host.host_user}}</td>
+			<td>{{host.script_dir}}</td>
+			<td><a href="#"  name="hostgroup_del_host" id="{{host.id}}" value="{{host_group.id}}" title="Delete Server By Group"><i class="icon-remove"></i></a></td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	  </table>  	
+{% endblock %}
