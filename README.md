@@ -1,6 +1,20 @@
 Automated operational platform
 ====
 
+###环境需求：
+
+ * python >=2.5
+ * django >=1.4.5
+ * mysql >5.1
+ * nginx >1.2
+ * flup
+
+#python model
+
+ * paramiko
+ * django-excel-response
+ * MySQL-python
+
 ##主要功能
  * 服务器的资源统计
  * svn的在线发布
