@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}<title>Show User</title>{% endblock %}
+{% block content %}
+<div>
+	{% if user.username == "root"  %}
+	<a href="/adduser"><span class="label label-warning">Add User</span></a>&nbsp;&nbsp;
+	{% endif %}
+	<a href="{% url aop.views.edituser user.id %}"><span class="label label-warning">Change Personal Data</span></a>&nbsp;&nbsp;
+</div>
+	<hr>
+      <table class="table table-bordered table-striped table-condensed">
+		<thead>
+			<tr>
+			<th>用户名</th>
+			<th>姓名</th>
+			<th>手机</th>
+			<th>邮箱</th>
+			{% if user.username == "root"  %}
+			<th width="150">操作</th>
+			{% endif %}
+			</tr>
+		</thead>
+		<tbody>
+			{% for user_user in users %}
+			<tr>
+			<td>{{user_user.username}}</td>
+			<td>{{user_user.userprofile.name}}</td>
+			<td>{{user_user.userprofile.iphone}}</td>
+			<td>{{user_user.email}}</td>			
+			{% if user.username == "root" %}
+			<td>
+				{% if user_user.username != "root" %}
+				<div class="btn-group">
+				<a class="btn" href="{% url aop.views.deluser user_user.id %}" title="Del User">del</a>
+				</div>
+				{% endif %}
+			</td>
+			{% endif %}
+			</tr>
+			{% endfor %}
+		</tbody>
+	  </table>
+
+{% endblock %}

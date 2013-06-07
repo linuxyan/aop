@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*- 
 from django.db import models
-
+from django.contrib.auth.models import User 
 # Create your models here.
 
 #多个svn对应一个host，外键应该在svn表里面
@@ -17,6 +17,7 @@ class hosts(models.Model):
     host_root_pwd = models.CharField(max_length=50)
     script_dir = models.CharField(max_length=100)
     host_description = models.TextField(blank=True)
+    create_user = models.CharField(max_length=10)
 
     def __unicode__(self):
         return self.host_name
@@ -29,7 +30,7 @@ class svns(models.Model):
     svn_local = models.CharField(max_length=100)
     svn_path = models.CharField(max_length=100)
     host  = models.ForeignKey(hosts)
-    
+    create_user = models.CharField(max_length=10)
     def __unicode__(self):
         return self.svn_name
 
@@ -69,3 +70,8 @@ class tasks(models.Model):
     task_create_user = models.CharField(max_length=30)
     def __unicode__(self):
         return self.task_name
+    
+class UserProfile(models.Model):
+    user = models.OneToOneField(User)
+    name = models.CharField(u"姓名",max_length=30)
+    iphone = models.CharField(u'手机',max_length=11)

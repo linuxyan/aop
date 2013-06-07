@@ -6,7 +6,7 @@ from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.forms.models import model_to_dict
 from aopform import *
-from aop.models import hosts,svns,hostgroup,scripts,tasks,scriptgroup
+from aop.models import hosts,svns,hostgroup,scripts,tasks,scriptgroup,UserProfile
 import os,paramiko,time,string
 from aopproject import settings
 from django.contrib.auth.models import User  
@@ -38,8 +38,6 @@ def loginout(request):
 
 @login_required(login_url='/login/')
 def index(request):
-    if request.user.username == "updatesvn":
-        return HttpResponseRedirect('/showsvn/')    
     if request.method == 'POST':
         search = request.POST.get("search",'null')
         print  request.POST,search
@@ -91,7 +89,7 @@ def hostadd(request):
             script_dir = form.cleaned_data['script_dir']
             host_description = form.cleaned_data['host_description']
             try:
-                hosts(host_name=host_name,host_user=host_user,host_pass=host_pass,host_w_ip=host_w_ip,host_w_port=host_w_port,host_n_ip=host_n_ip,host_n_port=host_n_port,host_root_pwd=host_root_pwd,script_dir=script_dir,host_description=host_description).save()
+                hosts(host_name=host_name,host_user=host_user,host_pass=host_pass,host_w_ip=host_w_ip,host_w_port=host_w_port,host_n_ip=host_n_ip,host_n_port=host_n_port,host_root_pwd=host_root_pwd,script_dir=script_dir,host_description=host_description,create_user=request.user).save()
                 result = "Add Server %s success!"%host_name
             except:
                 result = "Add Server %s Failed!"%host_name
@@ -105,6 +103,9 @@ def hostadd(request):
 
 @login_required(login_url='/login/')
 def hostedit(request,host_id):
+    host = hosts.objects.get(id=host_id)
+    if request.user.username != host.create_user and request.user.username != "root":
+        return HttpResponse("你木有权限编辑本条记录！")
     if request.method == 'POST':
         form = hostform(request.POST)
         if form.is_valid():
@@ -120,6 +121,7 @@ def hostedit(request,host_id):
                 host.host_root_pwd = en_str(settings.SECRET_KEY,str(form.cleaned_data['host_root_pwd']))
                 host.script_dir = form.cleaned_data['script_dir']
                 host.host_description = form.cleaned_data['host_description']
+                host.create_user = request.user
                 host.save()
             except:
                 return HttpResponse("更新服务器信息失败!")
@@ -168,8 +170,6 @@ def showsvn(request):
 
 @login_required(login_url='/login/')
 def svnadd(request):
-    if request.user.username == "updatesvn":
-        return HttpResponseRedirect('/showsvn/')
     if request.method == "POST":
         form = svnform(request.POST)
         if form.is_valid():
@@ -180,7 +180,7 @@ def svnadd(request):
             svn_path = form.cleaned_data['svn_path']
             host = form.cleaned_data['host']
             try:
-                svns(svn_name=svn_name,svn_user=svn_user,svn_pass=svn_pass,svn_local=svn_local,svn_path=svn_path,host=host).save()
+                svns(svn_name=svn_name,svn_user=svn_user,svn_pass=svn_pass,svn_local=svn_local,svn_path=svn_path,host=host,create_user=request.user).save()
             except:
                 result = "Add Svn %s Failed!"%svn_name
                 form = svnform()
@@ -193,8 +193,9 @@ def svnadd(request):
 
 @login_required(login_url='/login/')
 def svnedit(request,svn_id):
-    if request.user.username == "updatesvn":
-        return HttpResponseRedirect('/showsvn/')      
+    svn = svns.objects.get(id=svn_id)
+    if request.user.username != svn.create_user and request.user.username != "root":
+        return HttpResponse("你木有权限编辑本条记录！")
     if request.method == 'POST':
         form = svnform(request.POST)
         if form.is_valid():
@@ -206,6 +207,7 @@ def svnedit(request,svn_id):
                 svn.svn_local = form.cleaned_data['svn_local']
                 svn.svn_path = form.cleaned_data['svn_path']
                 svn.host = form.cleaned_data['host']
+                svn.create_user = request.user
                 svn.save()
             except:
                 return HttpResponse("更新svn信息失败！")
@@ -270,12 +272,18 @@ def showsvnlog(request):
 
 @login_required(login_url='/login/')
 def hostdel(request,host_id):
+    host = hosts.objects.get(id=host_id)
+    if request.user.username != host.create_user and request.user.username != "root":
+        return HttpResponse("你木有权限删除本条记录！")
     svn = svns.objects.filter(host_id=host_id)
     return render(request,'delhost.html',{'svns':svn,'host_id':host_id})
 
 #确认删除服务器信息以及svn信息
 @login_required(login_url='/login/')
 def confirm_del(request,host_id):
+    host = hosts.objects.get(id=host_id)
+    if request.user.username != host.create_user and request.user.username != "root":
+        return HttpResponse("你木有权限删除本条记录！")
     hosts.objects.filter(id=host_id).delete()
     return HttpResponseRedirect('/')
 
@@ -299,8 +307,6 @@ def addscript(request):
 
 @login_required(login_url='/login/')
 def showscript(request):
-    if request.user.username == "updatesvn":
-        return HttpResponseRedirect('/showsvn/') 
     if request.method == 'POST':
         search = request.POST.get("search",'null')
         qset = (
@@ -335,13 +341,14 @@ def showscript(request):
 
 @login_required(login_url='/login/')
 def delscript(request,script_id):
+    script = scripts.objects.get(id=script_id)
+    if request.user.username != script.create_user and request.user.username != "root":
+        return HttpResponse("你木有权限删除本条记录！")
     scripts.objects.filter(id=script_id).delete()
     return HttpResponseRedirect('/showscript/')
 
 @login_required(login_url='/login/')
 def group(request):
-    if request.user.username == "updatesvn":
-        return HttpResponseRedirect('/showsvn/')
     if request.method == 'POST':
         grouptype = request.POST['grouptype']
         if grouptype == "servergroup":
@@ -386,11 +393,14 @@ def scriptgroup_detail(request,group_id):
 
 @login_required(login_url='/login/')
 def hostgroup_del(request,group_id):
+    host_group = hostgroup.objects.get(id=group_id)
+    if request.user.username != host_group.create_user and request.user.username != "root":
+        return HttpResponse("你木有权限删除本条记录！")    
     hostgroup.objects.filter(id=group_id).delete()
     return HttpResponseRedirect('/group/')
 
 @login_required(login_url='/login/')
-def hostgroup_del_host(request):
+def hostgroup_del_host(request):    
     if request.method == 'POST':
         try:
             group_id=request.POST['group_id']
@@ -406,6 +416,9 @@ def hostgroup_del_host(request):
 
 @login_required(login_url='/login/')
 def scriptgroup_del(request,group_id):
+    script_group = scriptgroup.objects.get(id=group_id)
+    if request.user.username != script_group.create_user and request.user.username != "root":
+        return HttpResponse("你木有权限删除本条记录！") 
     scriptgroup.objects.filter(id=group_id).delete()
     return HttpResponseRedirect('/group/')
 
@@ -413,7 +426,7 @@ def scriptgroup_del(request,group_id):
 def scriptgroup_del_script(request):
     if request.method == 'POST':
         try:
-            group_id = request.POST['group_id']
+            group_id = request.POST['group_id']            
             script_id = request.POST['script_id']
             script_group = scriptgroup.objects.get(id=group_id)
             script = scripts.objects.get(id=script_id)
@@ -460,9 +473,7 @@ def addtogroup(request):
 
 
 @login_required(login_url='/login/')
-def task(request):
-    if request.user.username == "updatesvn":
-        return HttpResponseRedirect('/showsvn/')    
+def task(request):  
     if request.method == 'POST':
         form = taskform(request.POST)
         if form.is_valid():
@@ -490,6 +501,9 @@ def task(request):
 
 @login_required(login_url='/login/')
 def task_del(request,task_id):
+    task = tasks.objects.get(id=task_id)
+    if request.user.username != task.task_create_user and request.user.username != "root":
+        return HttpResponse("你木有权限删除本条记录！")
     tasks.objects.filter(id=task_id).delete()
     return HttpResponseRedirect('/task/')
 
@@ -498,6 +512,10 @@ def task_del(request,task_id):
 def task_run(request):
     if request.method == 'POST':
         task_id = request.POST['task_id']
+        task = tasks.objects.get(id=task_id)
+        if request.user.username != task.task_create_user and request.user.username != "root":
+            result = "没有权限执行此任务!"
+            return HttpResponse(result,mimetype='application/html')
         task = tasks.objects.get(id=task_id)
         host_list = task.host_group.host.all()
         script_list = task.script_group.script.all()
@@ -525,6 +543,66 @@ def task_status(request,task_id):
     except:
         result = "read result Faild!"
         return render(request,'task.html',{'form':form,'task_list':task_list,'result':result})
+
+@login_required(login_url='/login/')
+def showuser(request):
+    users = User.objects.all()
+    return render(request,'showuser.html',{'users':users})
+
+@login_required(login_url='/login/')
+def adduser(request):
+    if request.user.username != "root":
+        return HttpResponse("你木有权限添加用户！")
+    if request.method == 'POST':
+        form = userform(request.POST)
+        if form.is_valid():
+            try:
+                username = form.cleaned_data['username']
+                password = form.cleaned_data['password']
+                email = form.cleaned_data['email']
+                user = User.objects.create_user(username=username,password=password,email=email)
+                user.save()
+                name = request.POST['xingming']
+                iphone = request.POST['iphone']
+                UserProfile(user=user,name=name,iphone=iphone).save()
+                return HttpResponseRedirect('/showuser/')
+            except Exception as e:
+                return HttpResponse(e)
+    else:
+        form = userform()
+        return render(request,'adduser.html',{'form':form})
+
+@login_required(login_url='/login/')
+def deluser(request,user_id):
+    if request.user.username != "root":
+        return HttpResponse("你木有权限删除此用户！")
+    User.objects.filter(id=user_id).delete()
+    return HttpResponseRedirect('/showuser/')
+
+@login_required(login_url='/login/')
+def edituser(request,user_id):
+    if request.method == 'POST':
+        try:
+            password = request.POST['password']
+            name = request.POST['xingming']
+            iphone = request.POST['iphone']
+            email = request.POST['email']
+            user = User.objects.get(id=user_id)
+            user.email = email
+            user.set_password(password)
+            user.save()
+            userprofile = UserProfile.objects.get(user=user)
+            userprofile.name = name 
+            userprofile.iphone = iphone
+            userprofile.save()
+            return HttpResponseRedirect('/showuser/')
+        except Exception as e:
+            return HttpResponse(e)
+        
+    else:
+        user = User.objects.get(id=user_id)
+        return render(request,'edituser.html',{'user':user})
+
 
 
 def test(request):

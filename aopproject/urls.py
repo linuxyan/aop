@@ -41,6 +41,10 @@ urlpatterns = patterns('aop.views',
     url(r'^scriptgroup_del/(?P<group_id>[^/]+)$', 'scriptgroup_del'),
     url(r'^hostgroup_del_host/$', 'hostgroup_del_host'),
     url(r'^scriptgroup_del_script/$', 'scriptgroup_del_script'),
+    url(r'^showuser/$', 'showuser'),
+    url(r'^adduser/$', 'adduser'),
+    url(r'^edituser/(?P<user_id>[^/]+)$', 'edituser'),
+    url(r'^deluser/(?P<user_id>[^/]+)$', 'deluser'),
     url(r'^test/$', 'test'),
     
 )

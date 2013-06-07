@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}<title>Add User</title>{% endblock %}
+{% block content %}
+<h3>Add User</h3>
+	<hr>
+	<form method="POST" class="form-horizontal">
+  <div class="control-group">
+    <label class="control-label" for="host_name">用户名:</label>
+    <div class="controls">
+      {{ form.username }}{{form.username.errors}}
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="host_w_ip">密码:</label>
+    <div class="controls">
+      {{ form.password }}{{form.password.errors}}
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="host_n_ip">姓名:</label>
+    <div class="controls">
+      <input id="id_xingming" type="text" name="xingming" maxlength="75" />
+    </div>
+  </div>
+    <div class="control-group">
+    <label class="control-label" for="host_n_ip">手机:</label>
+    <div class="controls">
+      <input id="id_iphone" type="text" name="iphone" maxlength="75" />
+    </div>
+  </div>
+  
+    <div class="control-group">
+    <label class="control-label" for="host_n_ip">邮箱:</label>
+    <div class="controls">
+      {{ form.email }}{{form.email.errors}}
+    </div>
+  </div>
+  <div class="control-group">
+    <div class="controls">
+      <button type="submit" class="btn" id="send" >Save User</button>
+    </div>
+  </div>
+</form>
+{% endblock %}
