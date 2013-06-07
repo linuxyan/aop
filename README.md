@@ -1,7 +1,7 @@
 Automated operational platform
 ====
 
-###环境需求：
+##环境需求：
 
  * python >=2.5
  * django >=1.4.5
@@ -9,7 +9,7 @@ Automated operational platform
  * nginx >1.2
  * flup
 
-#python model
+#python模块：
 
  * paramiko
  * django-excel-response
