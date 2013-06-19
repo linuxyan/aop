@@ -14,6 +14,9 @@ from django.contrib.auth import authenticate, login as user_login, logout as use
 from django.contrib.auth.decorators import login_required
 from aopfunction import *
 
+import sys
+reload(sys)
+sys.setdefaultencoding("utf-8")
 
 def login(request):
     if request.method == 'POST':  
