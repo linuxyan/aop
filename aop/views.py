@@ -617,3 +617,5 @@ def test(request):
 #from django.contrib.auth.models import User;
 #user = User.objects.create_user(username='updatesvn',password='updatesvn123',email='a@a.com')
 #user.save
+#user.set_password("L8ka65##702")
+#user.save()
