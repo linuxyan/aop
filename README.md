@@ -2,15 +2,13 @@ Automated operational platform
 ====
 
 ##环境需求：
-
  * python >=2.5
  * django >=1.4.5
  * mysql >5.1
  * nginx >1.2
  * flup
 
-#python模块：
-
+##python模块：
  * paramiko
  * django-excel-response
  * MySQL-python
@@ -21,10 +19,14 @@ Automated operational platform
  * 脚本的批量执行
 
 #2013.06.07
-*添加了权限管理，各个帐号添加的资源只有该帐号和root超级管理员可以删除和编辑。
-
-*每个帐号添加的任务，只有该帐号和root超级管理员可以执行以及删除。其他普通管理员只能查看执行状态。
-
-*超级管理员root可以添加和删除用户，普通用户只能编辑自己该账户的资料。
+* 添加了权限管理，各个帐号添加的资源只有该帐号和root超级管理员可以删除和编辑。
+* 每个帐号添加的任务，只有该帐号和root超级管理员可以执行以及删除。其他普通管理员只能查看执行状态。
+* 超级管理员root可以添加和删除用户，普通用户只能编辑自己该账户的资料。
 
 
+##安装部署
+* 修改aopproject/settings.py 设置数据库类型，账号密码
+* 运行python manage.py syncdb    进行创建数据库表结构  期间添加管理员账号
+* 开启服务器:python manage.py runfcgi method=prefork host=127.0.0.1 port=9001
+* 配置nginx转发到127.0.0.1:90001端口
+* nginx配置文件参考：
